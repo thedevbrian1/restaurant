@@ -1,7 +1,6 @@
 import { Link, NavLink } from "@remix-run/react";
 import { useRef, useState } from "react";
 import { motion, useCycle } from "framer-motion";
-import { MenuIcon, XIcon } from "./Icon";
 import { navLinks, useDimensions } from "~/utils";
 
 const sidebar = {
