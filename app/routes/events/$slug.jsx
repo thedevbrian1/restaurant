@@ -1,18 +1,9 @@
 import { Form, Link, Outlet, useCatch, useLoaderData, useTransition } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { useState } from "react";
-import dialogStyles from "@reach/dialog/styles.css";
+
 import { getEvent } from "~/models/event";
 import { getSession, sessionStorage } from "../../session.server";
-
-export function links() {
-    return [
-        {
-            rel: 'stylesheet',
-            href: dialogStyles
-        }
-    ];
-}
 
 export async function loader({ params }) {
     const slug = params.slug;
