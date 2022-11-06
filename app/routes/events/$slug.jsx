@@ -1,8 +1,6 @@
 import { Form, Link, Outlet, useCatch, useLoaderData, useTransition } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { useState } from "react";
-import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
-import { VisuallyHidden } from "@reach/visually-hidden";
 import dialogStyles from "@reach/dialog/styles.css";
 import { getEvent } from "~/models/event";
 import { getSession, sessionStorage } from "../../session.server";
@@ -83,66 +81,7 @@ export default function EventSlug() {
                     </Link> */}
                     </div>
                 </div>
-                {/* <Dialog isOpen={showDialog} onDismiss={handleExternalClick}>
-            <button className="close-button" onClick={close}>
-                <VisuallyHidden>Close</VisuallyHidden>
-                <span aria-hidden>×</span>
-            </button>
-            <div className="space-y-3">
-                <h1 className="text-black font-semibold text-xl">Reserve table for event</h1>
-                <p className="text-gray-800">
-                    Fill in the form below to reserve your table. We will reach out to you with the details you have provided.
-                </p>
-                <Form method="post">
-                    <fieldset className="text-gray-800 grid grid-cols-2 gap-4">
-                        <div>
-                            <label htmlFor="name">Full name</label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="John Doe"
-                                className="px-3 py-2 w-72 rounded-lg block"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="phone">Phone number</label>
-                            <input
-                                type="text"
-                                id="phone"
-                                name="phone"
-                                placeholder="0712345678"
-                                className="px-3 py-2 w-72 rounded-lg block"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="johndoe@gmail.com"
-                                className="px-3 py-2 w-72 rounded-lg block"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="quantity">Number of people</label>
-                            <input
-                                type="number"
-                                id="quantity"
-                                name="quantity"
-                                placeholder="2"
-                                className="px-3 py-2 w-72 rounded-lg block"
-                            />
-                        </div>
-                        <button className="w-1/2 bg-gradient-to-r from-[#f46b45] to-[#eea849] px-6 py-2 rounded-lg text-black">
-                            Reserve
-                        </button>
-                    </fieldset>
-                </Form>
-            </div>
-            <p className="text-black">Hello there. I am a dialog</p>
-        </Dialog> */}
+
             </div>
         </main>
     )
