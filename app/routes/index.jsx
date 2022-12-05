@@ -1,8 +1,44 @@
+import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { ArrowRightIcon } from "~/components/Icon";
-import { Form, Link } from "@remix-run/react";
 import MenuCard from "~/components/MenuCard";
 import Special from "~/components/Special";
 import TestimonialCard from "~/components/TestimonialCard";
+import Input from "~/components/Input";
+import { badRequest, hours, validateCapacity, validateDate, validateMessage, validatePhone, validateTime } from "~/utils";
+
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const date = formData.get('date');
+  const time = formData.get('time');
+  const quantity = formData.get('quantity');
+  const phone = formData.get('phone');
+  const specialEvent = formData.get('specialEvent');
+  const specialEventDetails = formData.get('specialEventDetails');
+
+  console.log({ date, time, quantity, phone, specialEvent, specialEventDetails });
+
+  console.log(hours.includes(time));
+
+  const fields = { date, time, quantity, phone, specialEventDetails };
+  const fieldErrors = {
+    date: validateDate(date),
+    time: validateTime(time),
+    quantity: validateCapacity(quantity),
+    phone: validatePhone(phone),
+    specialEventDetails: validateMessage(specialEventDetails)
+  };
+
+  // Return errors if any
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return badRequest({ fields, fieldErrors });
+  }
+  return redirect('/success');
+}
 
 export default function Index() {
   return (
@@ -35,7 +71,7 @@ function Hero() {
             The best of Nairobian drinks and meals in one spot
           </p>
           <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto px-4 lg:px-auto">
-            <Link to="/" className="px-6 py-2 w-full lg:w-auto text-center bg-white text-black rounded-lg">
+            <Link to="/#reserve" className="px-6 py-2 w-full lg:w-auto text-center bg-white text-black rounded-lg">
               Make Reservation
             </Link>
             <Link to="/" className="px-6 py-2 w-full lg:w-auto text-center border border-white rounded-lg">
@@ -195,67 +231,106 @@ function Testimonials() {
 }
 
 function ContactForm() {
-  const hours = ['12 (Midnight)', '1 a.m.', '2 a.m.', '3 a.m.', '4 a.m.', '5 a.m.', '6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 (Noon)', '1 p.m', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.', '8 p.m.', '9 p.m.', '10 p.m.', '11 p.m.'];
+  const actionData = useActionData();
+
+  const transition = useTransition();
+  const isSubmitting = transition.submission;
+
+  const [showAdditional, setShowAdditional] = useState(false);
+
+  const dateRef = useRef(null);
+  const quantityRef = useRef(null);
+  const phoneRef = useRef(null);
+  const specialEventDetailsRef = useRef(null);
+  // const hours = ['12 (Midnight)', '1 a.m.', '2 a.m.', '3 a.m.', '4 a.m.', '5 a.m.', '6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 (Noon)', '1 p.m', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.', '8 p.m.', '9 p.m.', '10 p.m.', '11 p.m.'];
 
   // TODO: Collect more details for reservation e.g whether it is a special occasion
   // Use a checkbox to activate the more details section
   // Special occasions include birthdays, graduation party, valentine's
   return (
-    <section className="w-4/5 lg:max-w-6xl mx-auto py-16 lg:py-20 grid gap-5 justify-items-center">
+    <section id="reserve" className="w-4/5 lg:max-w-6xl mx-auto py-16 lg:py-20 grid gap-5 justify-items-center">
       <h2 className="font-semibold text-2xl lg:text-5xl text-black font-heading">Your next meal awaits @ Restaurant KE</h2>
       <p className="font-bold text-a11y-1 text-xl lg:text-2xl">123 Street, Nairobi</p>
       <Form method="post" className="w-full lg:w-auto">
-        <fieldset className="text-black px-4 lg:px-10 flex flex-col lg:flex-row gap-3 lg:items-end">
-          <div>
-            <label htmlFor="date">Day</label>
-            <input
-              type="date"
-              name="date"
-              id="date"
-              className="w-full lg:w-auto border border-gray-300 text-light-black rounded-lg block shadow-sm"
-            />
+        <fieldset className="text-black px-4 lg:px-10 ">
+          <div className="flex flex-col lg:flex-row flex-wrap gap-3 lg:items-start">
+            <div>
+              <label htmlFor="date">Day</label>
+              <Input
+                ref={dateRef}
+                type="date"
+                name="date"
+                id="date"
+                fieldError={actionData?.fieldErrors.date}
+              />
+            </div>
+            <div>
+              <label htmlFor="time">Time</label>
+              <select
+                name="time"
+                id="time"
+                className="w-full lg:w-auto border border-gray-300 text-light-black  rounded block shadow-sm"
+                defaultValue={hours[12]}
+              >
+                {hours.map((hour, index) => (
+                  <option
+                    value={hour}
+                    key={index}
+                  // selected={hour === '12 (Noon)'}
+                  >
+                    {hour}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="quantity">Number of people</label>
+              <Input
+                ref={quantityRef}
+                type='number'
+                name='quantity'
+                id='quantity'
+                placeholder='2'
+                fieldError={actionData?.fieldErrors.quantity}
+              />
+            </div>
+            <div>
+              <label htmlFor="phone">Phone number</label>
+              <Input
+                ref={phoneRef}
+                type='text'
+                name='phone'
+                id='phone'
+                placeholder='0710 162 152'
+                fieldError={actionData?.fieldErrors.phone}
+              />
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                name="specialEvent"
+                id="specialEvent"
+                onClick={() => setShowAdditional(prev => !prev)}
+                className="rounded mr-2"
+              />
+              <label htmlFor="specialEvent">This is a special occasion</label>
+            </div>
+            {showAdditional &&
+              <div>
+                <label htmlFor="specialEventDetails">What kind of occasion is it?</label>
+                <Input
+                  ref={specialEventDetailsRef}
+                  type='text'
+                  name='specialEventDetails'
+                  id='specialEventDetails'
+                  placeholder='Birthday, Anniversary...'
+                  fieldError={actionData?.fieldErrors.specialEventDetails}
+                />
+              </div>
+            }
           </div>
-          <div>
-            <label htmlFor="time">Time</label>
-            <select
-              name="time"
-              id="time"
-              className="w-full lg:w-auto border border-gray-300 text-light-black  rounded-lg block shadow-sm"
-              defaultValue={hours[12]}
-            >
-              {hours.map((hour, index) => (
-                <option
-                  value={hour}
-                  key={index}
-                // selected={hour === '12 (Noon)'}
-                >
-                  {hour}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="quantity">Number of people</label>
-            <input
-              type="number"
-              name="quantity"
-              id="quantity"
-              placeholder="e.g 2"
-              className="w-full lg:w-auto border border-gray-300 text-light-black rounded-lg block shadow-sm"
-            />
-          </div>
-          <div>
-            <label htmlFor="phoneNumber">Phone number</label>
-            <input
-              type="number"
-              name="phoneNumber"
-              id="phoneNumber"
-              placeholder="e.g 0712345678"
-              className="w-full lg:w-auto border border-gray-300 text-light-black rounded-lg block shadow-sm"
-            />
-          </div>
-          <button type="submit" className="w-full lg:w-auto bg-a11y-1 text-a11y-2 lg:h-11 py-2 px-6 rounded-lg">
-            Reserve a Table
+          <button type="submit" className="w-full lg:w-auto bg-a11y-1 text-a11y-2 lg:h-11 mt-4 py-2 px-6 rounded-lg">
+            {isSubmitting ? 'Reserving...' : 'Reserve a Table'}
           </button>
         </fieldset>
       </Form>
@@ -264,9 +339,30 @@ function ContactForm() {
 }
 
 function Gallery() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const galleryRef = useRef(null);
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.from("#rect1, #rect2, #rect3", {
+        xPercent: 100,
+        ease: 'expo',
+        opacity: 0,
+        duration: 2,
+        delay: 1,
+        scrollTrigger: {
+          trigger: '#images',
+        }
+      })
+    }, galleryRef);
+    return () => {
+      ctx.revert();
+    }
+  }, []);
   return (
-    <div className="">
-      <div className="columns-2 lg:columns-3 gap-1 lg:gap-x-2 w-4/5 lg:max-w-4xl mx-auto">
+    <div className="bg-a11y-1 py-8 lg:py-16 xl:py-20" ref={galleryRef}>
+      {/* <div className="columns-2 lg:columns-3 gap-1 lg:gap-x-2 w-4/5 lg:max-w-4xl mx-auto">
         <div className="break-inside-avoid p-0.5 mb-1 lg:p-2 lg:mb-2 ">
           <img
             src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -302,35 +398,28 @@ function Gallery() {
             className="object-cover rounded-lg"
           />
         </div>
-      </div>
-      {/* <div className="bg-gradient-to-r from-[#f46b45] to-[#eea849] text-black w-full p-3 flex justify-between lg:px-10 py-6">
-        <div>
-          <span className="font-bold lg:text-lg font-heading">Restaurant KE</span>
-          <span className="ml-2 ">123 Street, Nairobi</span>
-        </div>
-        <ul className="hidden lg:flex gap-3">
-          <li>
-            <Link to="/menu">
-              Menu
-            </Link>
-          </li>
-          <li>
-            <Link to="/events">
-              Events
-            </Link>
-          </li>
-          <li>
-            <Link to="/hours">
-              Hours and Location
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact">
-              Contact
-            </Link>
-          </li>
-        </ul>
       </div> */}
+      <div className="max-w-xs lg:max-w-xl mx-auto">
+        <svg viewBox="0 0 100 100" id="images">
+          <mask id="blueClip">
+            <rect id="rect1" x="30" y="0" width="70" height="50" fill="white" />
+          </mask>
+
+          <mask id="greenClip">
+            <rect id="rect2" x="60" y="60" width="40" height="40" fill="white" />
+          </mask>
+
+          <mask id="pinkClip">
+            <rect id="rect3" x="0" y="30" width="50" height="70" fill="white" />
+          </mask>
+
+          <image preserveAspectRatio="xMidYMid slice" mask="url(#blueClip)" x="30" y="0" width="70" height="50" href="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+
+          <image preserveAspectRatio="xMidYMid slice" mask="url(#greenClip)" x="60" y="60" width="40" height="40" href="https://images.pexels.com/photos/784633/pexels-photo-784633.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+
+          <image preserveAspectRatio="xMidYMid slice" mask="url(#pinkClip)" x="0" y="30" width="50" height="70" href="https://images.pexels.com/photos/914388/pexels-photo-914388.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+        </svg>
+      </div>
     </div>
   )
 }

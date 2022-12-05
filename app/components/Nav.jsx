@@ -67,7 +67,7 @@ export default function Nav() {
                     ))}
                 </ul>
                 <div className="flex gap-4">
-                    <Link to="/" className="px-6 py-2 rounded-lg bg-white text-black">
+                    <Link to="/#reserve" className="px-6 py-2 rounded-lg bg-white text-black">
                         Reserve a Table
                     </Link>
                     <Link to="/" className="px-6 py-2 border border-white text-white rounded-lg">

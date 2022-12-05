@@ -29,6 +29,8 @@ export const navLinks = [
     }
 ];
 
+export const hours = ['12 (Midnight)', '1 a.m.', '2 a.m.', '3 a.m.', '4 a.m.', '5 a.m.', '6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 (Noon)', '1 p.m', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.', '8 p.m.', '9 p.m.', '10 p.m.', '11 p.m.'];
+
 export function validateEmail(email) {
     if (typeof email !== "string" || email.length < 3 || !email.includes("@")) {
         return 'Email is invalid';
@@ -51,7 +53,11 @@ export function validatePhone(phone) {
 
     const telkomRegex = /^(?:254|\+254|0)?(77[0-9][0-9]{6})$/;
 
-    if (!phone.match(safariomRegex) && !phone.match(airtelRegex) && !phone.match(telkomRegex)) {
+    if (typeof phone !== "string" || phone.length < 10) {
+        return 'Phone number is invalid';
+    }
+
+    else if (!phone.match(safariomRegex) && !phone.match(airtelRegex) && !phone.match(telkomRegex)) {
         return 'Phone number is invalid';
     }
 }
@@ -67,12 +73,86 @@ export function validateMessage(message) {
         return 'Message cannot be empty';
     }
 }
+
+export function validateDate(date) {
+    if (!/^(\d{4})([\/-])(\d{1,2})\2(\d{1,2})$/.test(date)) {
+        return 'Invalid date format';
+    } else if (new Date(date).toLocaleDateString() < new Date().toLocaleDateString()) {
+        // console.log(new Date(date).toISOString());
+        return 'You cannot select a day in the past. Select any day from today';
+    }
+
+    // console.log('Date; ', new Date().toLocaleDateString());
+    // console.log('Date from form: ', new Date(date).toLocaleDateString());
+    // console.log('Date is in the past? ', new Date(date).toLocaleDateString() < new Date().toLocaleDateString());
+
+
+    // // Parse date parts to integers
+    const parts = date.split('-');
+    const day = parseInt(parts[2], 10);
+    const month = parseInt(parts[1], 10);
+    const year = parseInt(parts[0], 10);
+
+    // // Check the ranges of month and year
+    if (year < 1000 || year > 3000 || month == 0 || month > 12) {
+        return 'Invalid date. Check the month or year';
+    }
+
+    const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
+        monthLength[1] = 29;
+    }
+
+    if (!(day > 0 && day <= monthLength[month - 1])) {
+        return 'Invalid date. Check the day';
+    }
+}
+
+export function validateTime(time) {
+    if ((typeof time !== 'string') || (!hours.includes(time))) {
+        return 'Invalid time';
+    }
+}
+
 export function badRequest(data) {
     return json(data, { status: 404 });
 }
 
+export async function sendEmail({ name, email, phone, message }) {
+    const Mailjet = require('node-mailjet');
+    const mailjet = Mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
+    try {
+        const res = await mailjet
+            .post("send", { 'version': 'v3' })
+            .request({
+                "FromEmail": "brayomwas95@gmail.com",
+                "FromName": "thedevbrian Website",
+                "Recipients": [
+                    {
+                        "Email": "mwangib041@gmail.com",
+                        "Name": "Brian Mwangi"
+                    }
+                ],
+                "Subject": "Test email from KE",
+                "Text-part": "This is the text part of this email",
+                "Html-part": `
+            <h3>Message from website</h3>
+            <p>${message}</p>
+            <p>Here are my contact details: </p>
+            <p>Name: ${name} </p>
+            <p>Email: ${email} </p>
+            <p>Phone: ${phone} </p>
+            `
+            });
+        console.log('Email response: ', res.body);
+    } catch (err) {
+        throw new Response(err, { status: err.statusCode })
+    }
 
+}
 
 // Naive implementation - in reality would want to attach
 // a window or resize listener. Also use state/layoutEffect instead of ref/effect
