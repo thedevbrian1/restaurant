@@ -49,6 +49,7 @@ export default function Menu() {
                                     to={menuLink.path}
                                     className={({ isActive }) => isActive ? 'underline text-a11y-2 font-semibold' : ''}
                                     end
+                                    preventScrollReset
                                 >
                                     {menuLink.name}
                                 </NavLink>

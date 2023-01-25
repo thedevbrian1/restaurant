@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.2.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -1040,10 +1040,6 @@ select {
   max-width: 24rem;
 }
 
-.max-w-lg {
-  max-width: 32rem;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1228,14 +1224,14 @@ select {
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
-}
-
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .border-red-500 {
@@ -1447,6 +1443,11 @@ select {
   padding-bottom: 2.5rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1455,11 +1456,6 @@ select {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-}
-
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
 }
 
 .pb-4 {
@@ -1556,6 +1552,11 @@ select {
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
+.text-light-black {
+  --tw-text-opacity: 1;
+  color: rgb(58 58 58 / var(--tw-text-opacity));
+}
+
 .text-red-700 {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity));
@@ -1564,11 +1565,6 @@ select {
 .text-brand-green {
   --tw-text-opacity: 1;
   color: rgb(85 168 51 / var(--tw-text-opacity));
-}
-
-.text-light-black {
-  --tw-text-opacity: 1;
-  color: rgb(58 58 58 / var(--tw-text-opacity));
 }
 
 .text-\[\#FFD700\] {
@@ -1839,6 +1835,10 @@ select {
     max-width: 72rem;
   }
 
+  .lg\:max-w-xl {
+    max-width: 36rem;
+  }
+
   .lg\:max-w-none {
     max-width: none;
   }
@@ -1849,14 +1849,6 @@ select {
 
   .lg\:max-w-\[700px\] {
     max-width: 700px;
-  }
-
-  .lg\:max-w-lg {
-    max-width: 32rem;
-  }
-
-  .lg\:max-w-xl {
-    max-width: 36rem;
   }
 
   .lg\:columns-3 {
