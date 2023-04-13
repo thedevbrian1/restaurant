@@ -40,14 +40,14 @@ const listItemVariants = {
     }
 };
 export default function Nav() {
-    const [isMenuShowing, setIsMenuShowing] = useState(false);
+    // const [isMenuShowing, setIsMenuShowing] = useState(false);
     const [isOpen, toggleOpen] = useCycle(false, true);
     const containerRef = useRef(null);
     const { height } = useDimensions(containerRef);
 
-    function toggleMenu() {
-        setIsMenuShowing(!isMenuShowing);
-    }
+    // function toggleMenu() {
+    //     setIsMenuShowing(!isMenuShowing);
+    // }
 
     return (
         <nav>
@@ -114,25 +114,15 @@ export default function Nav() {
                 animate={isOpen ? "open" : "closed"}
                 custom={height}
                 ref={containerRef}
-                className="lg:hidden absolute top-0 left-0 w-[300px] h-[50vh]"
+                className={`lg:hidden absolute top-0 left-0 w-[300px] h-[50vh] `}
 
             >
                 <motion.div
                     className="absolute top-0 left-0 w-[300px] bg-a11y-2 h-[50vh]"
                     variants={sidebar}
                 />
-                <ul className="p-[25px] absolute top-[100px]">
-                    {/* {
-                        ['Home', 'Menu', 'Events', 'Hours & Location', 'Contact'].map((item, index) => (<motion.li
-                            key={index}
-                            variants={listItemVariants}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="text-a11y-1 mb-4 flex items-center"
-                        >
-                            {item}
-                        </motion.li>))
-                    } */}
+                <ul className={`p-[25px] absolute  top-[100px]`}>
+
                     {navLinks.map((item) => (
                         <motion.li
                             variants={listItemVariants}

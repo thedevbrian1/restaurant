@@ -856,6 +856,14 @@ select {
   margin-left: 0.75rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.mt-\[-100vh\] {
+  margin-top: -100vh;
+}
+
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -870,14 +878,6 @@ select {
 
 .mb-1 {
   margin-bottom: 0.25rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
-}
-
-.mt-\[-100vh\] {
-  margin-top: -100vh;
 }
 
 .block {
@@ -952,10 +952,6 @@ select {
   height: 14rem;
 }
 
-.h-\[150px\] {
-  height: 150px;
-}
-
 .h-96 {
   height: 24rem;
 }
@@ -966,6 +962,10 @@ select {
 
 .h-\[200vh\] {
   height: 200vh;
+}
+
+.h-\[150px\] {
+  height: 150px;
 }
 
 .h-auto {
@@ -1273,11 +1273,6 @@ select {
   background-color: rgb(220 252 231 / var(--tw-bg-opacity));
 }
 
-.bg-light-gray {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 245 245 / var(--tw-bg-opacity));
-}
-
 .bg-green-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(34 197 94 / var(--tw-bg-opacity));
@@ -1296,6 +1291,11 @@ select {
 .bg-indigo-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+
+.bg-light-gray {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 245 245 / var(--tw-bg-opacity));
 }
 
 .bg-brand-green {
@@ -1423,6 +1423,16 @@ select {
   padding-bottom: 1.25rem;
 }
 
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -1438,11 +1448,6 @@ select {
   padding-bottom: 4rem;
 }
 
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -1451,11 +1456,6 @@ select {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
 }
 
 .pb-4 {
@@ -1835,20 +1835,20 @@ select {
     max-width: 72rem;
   }
 
-  .lg\:max-w-xl {
-    max-width: 36rem;
-  }
-
-  .lg\:max-w-none {
-    max-width: none;
-  }
-
   .lg\:max-w-5xl {
     max-width: 64rem;
   }
 
   .lg\:max-w-\[700px\] {
     max-width: 700px;
+  }
+
+  .lg\:max-w-xl {
+    max-width: 36rem;
+  }
+
+  .lg\:max-w-none {
+    max-width: none;
   }
 
   .lg\:columns-3 {
@@ -1912,14 +1912,14 @@ select {
     gap: 0.75rem;
   }
 
-  .lg\:gap-x-2 {
-    -moz-column-gap: 0.5rem;
-         column-gap: 0.5rem;
-  }
-
   .lg\:gap-x-12 {
     -moz-column-gap: 3rem;
          column-gap: 3rem;
+  }
+
+  .lg\:gap-x-2 {
+    -moz-column-gap: 0.5rem;
+         column-gap: 0.5rem;
   }
 
   .lg\:overflow-x-hidden {

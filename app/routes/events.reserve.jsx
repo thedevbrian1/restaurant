@@ -3,7 +3,7 @@ import { Form, useActionData, useCatch, useLoaderData, useTransition } from "@re
 import { useEffect, useRef } from "react";
 import { getEventImageAndName } from "~/models/event";
 import { getSession, sessionStorage } from "~/session.server";
-import { validateName, validatePhone, validateEmail, validateCapacity, badRequest } from "../../utils";
+import { validateName, validatePhone, validateEmail, validateCapacity, badRequest } from "../utils";
 
 export async function loader({ request }) {
     const session = await getSession(request);

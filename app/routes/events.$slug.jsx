@@ -3,7 +3,7 @@ import { redirect } from "@remix-run/node";
 import { useState } from "react";
 
 import { getEvent } from "~/models/event";
-import { getSession, sessionStorage } from "../../session.server";
+import { getSession, sessionStorage } from "../session.server";
 
 export async function loader({ params }) {
     const slug = params.slug;
