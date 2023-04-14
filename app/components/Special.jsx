@@ -2,7 +2,7 @@ import { HeartIcon, MicrophoneIcon, MusicNoteIcon, FireIcon } from "./Icon";
 
 export default function Special({ special, index }) {
     return (
-        <div className={`${index === 0 || index === 3 ? 'bg-a11y-1 text-a11y-2' : 'bg-white text-light-black'}   max-w-xs p-5 flex flex-col gap-2 rounded-lg`}>
+        <div className={`${index === 0 || index === 3 ? 'bg-a11y-1 text-a11y-2' : 'bg-white text-light-black'}   max-w-xs p-5 flex flex-col gap-2 rounded-lg group`}>
             {
                 special.title === 'Date Night'
                     ? <HeartIcon className="w-9 h-9" />

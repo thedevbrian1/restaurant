@@ -2,6 +2,7 @@ import { Link, NavLink } from "@remix-run/react";
 import { useRef, useState } from "react";
 import { motion, useCycle } from "framer-motion";
 import { navLinks, useDimensions } from "~/utils";
+import Button from "./Button";
 
 const sidebar = {
     open: (height = 1000) => ({
@@ -59,7 +60,8 @@ export default function Nav() {
                             <NavLink
                                 to={item.path}
                                 prefetch="intent"
-                                className={({ isActive }) => isActive ? 'text-white underline' : ''}
+                                // className={({ isActive }) => isActive ? 'py-2 text-white border-b border-white transition ease-in-out duration-300' : 'py-2 hover:text-gray-300 transition ease-in-out duration-300'}
+                                className={({ isActive }) => isActive ? 'py-1 border-b border-white text-white link link-underline ' : 'py-1 link link-underline link-underline-black'}
                             >
                                 {item.name}
                             </NavLink>
@@ -67,12 +69,8 @@ export default function Nav() {
                     ))}
                 </ul>
                 <div className="flex gap-4">
-                    <Link to="/#reserve" className="px-6 py-2 rounded-lg bg-white text-black">
-                        Reserve a Table
-                    </Link>
-                    <Link to="/" className="px-6 py-2 border border-white text-white rounded-lg">
-                        Order Here
-                    </Link>
+                    <Button href='/#reserve' text='Reserve a table' type='solid' />
+                    <Button href='/' text='Order Here' type='outline' />
                 </div>
             </div>
 

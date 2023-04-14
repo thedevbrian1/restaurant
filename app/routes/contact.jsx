@@ -1,4 +1,4 @@
-import { Form, useActionData, useCatch, useTransition } from "@remix-run/react";
+import { Form, isRouteErrorResponse, useActionData, useRouteError, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { badRequest, validateEmail, validateMessage, validateName, validatePhone } from "~/utils";
 
@@ -163,30 +163,28 @@ export default function Contact() {
                 </Form>
             </section>
         </main>
-    )
-}
-
-export function CatchBoundary() {
-    const caught = useCatch();
-
-    return (
-        <div className="text-black">
-            <h1 className="font-bold text-3xl">Error!</h1>
-            <p>Status: {caught.status}</p>
-            <pre>
-                <code>{caught.data}</code>
-            </pre>
-        </div>
     );
 }
 
-export function ErrorBoundary({ error }) {
+export function ErrorBoundary() {
+    const error = useRouteError();
+    console.log({ error });
+
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className="text-black">
+                <h1 className="font-bold text-3xl">Error!</h1>
+                <p>Status: {error.status}</p>
+                <pre>
+                    <code>{error.data.message}</code>
+                </pre>
+            </div>
+        );
+    }
     return (
         <div className="text-black">
             <h1 className="font-bold text-3xl">Error!</h1>
             <p>{error.message}</p>
-            <p>The stack trace is:</p>
-            <pre>{error.stack}</pre>
         </div>
-    )
+    );
 }

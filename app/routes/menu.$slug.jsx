@@ -1,4 +1,4 @@
-import { useCatch, useLoaderData, useParams } from "@remix-run/react";
+import { isRouteErrorResponse, useCatch, useLoaderData, useParams, useRouteError } from "@remix-run/react";
 import MenuItem from "~/components/MenuItem";
 
 export async function loader({ params }) {
@@ -230,26 +230,25 @@ export default function Slug() {
     );
 }
 
-export function CatchBoundary() {
-    const caught = useCatch();
-    return (
-        <div>
-            <h1 className="font-bold text-3xl text-black">Error!</h1>
-            <p>Status: {caught.status}</p>
-            <pre>
-                <code>{caught.data}</code>
-            </pre>
-        </div>
-    );
-}
+export function ErrorBoundary() {
+    const error = useRouteError();
+    console.log({ error });
 
-export function ErrorBoundary({ error }) {
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className="text-black">
+                <h1 className="font-bold text-3xl">Error!</h1>
+                <p>Status: {error.status}</p>
+                <pre>
+                    <code>{error.data.message}</code>
+                </pre>
+            </div>
+        );
+    }
     return (
         <div className="text-black">
             <h1 className="font-bold text-3xl">Error!</h1>
             <p>{error.message}</p>
-            <p>The stack trace is:</p>
-            <pre>{error.stack}</pre>
         </div>
-    )
+    );
 }

@@ -9,6 +9,7 @@ import Special from "~/components/Special";
 import TestimonialCard from "~/components/TestimonialCard";
 import Input from "~/components/Input";
 import { badRequest, hours, validateCapacity, validateDate, validateMessage, validatePhone, validateTime } from "~/utils";
+import Button from "~/components/Button";
 
 
 export async function action({ request }) {
@@ -71,12 +72,8 @@ function Hero() {
             The best of Nairobian drinks and meals in one spot
           </p>
           <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto px-4 lg:px-auto">
-            <Link to="/#reserve" className="px-6 py-2 w-full lg:w-auto text-center bg-white text-black rounded-lg">
-              Make Reservation
-            </Link>
-            <Link to="/" className="px-6 py-2 w-full lg:w-auto text-center border border-white rounded-lg">
-              Order Here
-            </Link>
+            <Button href='/#reserve' text='Make Reservation' type='solid' />
+            <Button href='/' text='Order Here' type='outline' />
           </div>
         </div>
       </div>
@@ -133,7 +130,7 @@ function Specials() {
               ))
             }
           </div>
-          <Link to="/events" className="text-a11y-1 underline hover:text-a11y-2">
+          <Link to="/events" className="text-a11y-1 underline hover:text-a11y-2 transition ease-in-out duration-300">
             View our events calendar <ArrowRightIcon className="ml-1 w-5 h-5 inline" />
           </Link>
         </div>
@@ -183,12 +180,9 @@ function Menus() {
               <p className="font-bold  text-xl lg:text-2xl font-heading">You can now order online from Restaurant</p>
               <p>We now actively deliver meals to your doorstep on <span className="font-bold">Uber Eats</span> and <span className="font-bold">Glovo</span></p>
               <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-3">
-                <Link to="/" className="py-2 px-6 w-2/3 lg:w-auto text-center rounded-lg bg-white text-black">
-                  Order on Glovo
-                </Link>
-                <Link to="/" className="py-2 px-6 w-2/3 lg:w-auto text-center rounded-lg border border-white text-white">
-                  Order on Uber Eats
-                </Link>
+                {/* TODO: Integrate with Glovo and Uber Eats */}
+                <Button href='/' text='Order on Glovo' type='solid' />
+                <Button href='/' text='Order on Uber Eats' type='outline' />
               </div>
             </div>
             <div className="flex justify-center">
@@ -251,7 +245,7 @@ function ContactForm() {
     <section id="reserve" className="w-4/5 lg:max-w-6xl mx-auto py-16 lg:py-20 grid gap-5 justify-items-center">
       <h2 className="font-semibold text-2xl lg:text-5xl text-black font-heading">Your next meal awaits @ Restaurant KE</h2>
       <p className="font-bold text-a11y-1 text-xl lg:text-2xl">123 Street, Nairobi</p>
-      <Form method="post" className="w-full lg:w-auto">
+      <Form method="post" className="max-w-4xl mx-auto">
         <fieldset className="text-black px-4 lg:px-10 ">
           <div className="flex flex-col lg:flex-row flex-wrap gap-3 lg:items-start">
             <div>
@@ -269,7 +263,7 @@ function ContactForm() {
               <select
                 name="time"
                 id="time"
-                className="w-full lg:w-auto border border-gray-300 text-light-black  rounded block shadow-sm"
+                className="w-full lg:w-auto border border-gray-300 text-light-black  rounded block shadow-sm focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2"
                 defaultValue={hours[12]}
               >
                 {hours.map((hour, index) => (
@@ -311,7 +305,7 @@ function ContactForm() {
                 name="specialEvent"
                 id="specialEvent"
                 onClick={() => setShowAdditional(prev => !prev)}
-                className="rounded mr-2"
+                className="rounded mr-2 focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2"
               />
               <label htmlFor="specialEvent">This is a special occasion</label>
             </div>
@@ -329,7 +323,7 @@ function ContactForm() {
               </div>
             }
           </div>
-          <button type="submit" className="w-full lg:w-auto bg-a11y-1 text-a11y-2 lg:h-11 mt-4 py-2 px-6 rounded-lg">
+          <button type="submit" className="w-full lg:w-auto bg-a11y-1 text-a11y-2 hover:bg-a11y-2  hover:text-a11y-1 focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 transition ease-in-out duration-300 lg:h-11 mt-4 py-2 px-6 rounded-lg">
             {isSubmitting ? 'Reserving...' : 'Reserve a Table'}
           </button>
         </fieldset>

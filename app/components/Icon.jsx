@@ -26,10 +26,14 @@ export function ArrowRightIcon() {
     );
 }
 
+// TODO: Animate icons
+// Mic, song and fire icon should vibrate
+// Heart icon should fill up
+
 export function HeartIcon() {
     return (
         <svg
-            className="w-6 h-6"
+            className="w-6 h-6 group-hover:text-white transition ease-in-out duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -43,7 +47,7 @@ export function HeartIcon() {
 export function MicrophoneIcon() {
     return (
         <svg
-            className="w-6 h-6"
+            className="w-6 h-6 group-hover:text-a11y-2 transition ease-in-out duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -57,7 +61,7 @@ export function MicrophoneIcon() {
 export function MusicNoteIcon() {
     return (
         <svg
-            className="w-6 h-6"
+            className="w-6 h-6 group-hover:text-a11y-2 transition ease-in-out duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -71,7 +75,7 @@ export function MusicNoteIcon() {
 export function FireIcon() {
     return (
         <svg
-            className="w-6 h-6"
+            className="w-6 h-6 group-hover:text-white transition ease-in-out duration-300"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -144,4 +148,66 @@ export function StarIcon() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
         </svg>
     )
+}
+
+export function Book() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+    );
+}
+
+export function Calendar() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+        </svg>
+
+    );
+}
+
+export function Clock() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    );
+}
+
+export function Chat() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8"
+        >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+        </svg>
+
+    );
 }

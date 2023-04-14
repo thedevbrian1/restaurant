@@ -11,16 +11,18 @@ import {
 import Nav from "./components/Nav";
 
 import styles from "./tailwind.css";
+import navStyles from "./styles/nav.css";
 import { navLinks } from "./utils";
 
-export const meta = () => ({
-  charset: "utf-8",
-  title: "Restaurant",
-  viewport: "width=device-width,initial-scale=1",
-});
+export const meta = () => ([
+  { charset: "utf-8" },
+  { title: "Restaurant" },
+  { viewport: "width=device-width,initial-scale=1", }
+]);
 
 export const links = () => ([
-  { rel: "stylesheet", href: styles }
+  { rel: "stylesheet", href: styles },
+  { rel: "stylesheet", href: navStyles }
 ]);
 
 export default function App() {
@@ -58,7 +60,8 @@ export default function App() {
                 <NavLink
                   to={item.path}
                   prefetch="intent"
-                  className={({ isActive }) => isActive ? 'text-white underline' : ''}
+                  // className={({ isActive }) => isActive ? 'text-white underline' : ''}
+                  className={({ isActive }) => isActive ? 'py-1 border-b border-white text-white link link-underline ' : 'py-1 link link-underline link-underline-black'}
                 >
                   {item.name}
                 </NavLink>

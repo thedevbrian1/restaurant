@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData, useCatch, useLoaderData, useTransition } from "@remix-run/react";
+import { Form, isRouteErrorResponse, useActionData, useCatch, useLoaderData, useRouteError, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { getEventImageAndName } from "~/models/event";
 import { getSession, sessionStorage } from "~/session.server";
@@ -160,27 +160,25 @@ export default function EventReserve() {
     )
 }
 
-export function CatchBoundary() {
-    const caught = useCatch();
+export function ErrorBoundary() {
+    const error = useRouteError();
+    console.log({ error });
 
-    return (
-        <div>
-            <h1 className="font-bold text-3xl">Error!</h1>
-            <p>Status: {caught.status}</p>
-            <pre>
-                <code>{caught.data}</code>
-            </pre>
-        </div>
-    );
-}
-
-export function ErrorBoundary({ error }) {
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className="text-black">
+                <h1 className="font-bold text-3xl">Error!</h1>
+                <p>Status: {error.status}</p>
+                <pre>
+                    <code>{error.data.message}</code>
+                </pre>
+            </div>
+        );
+    }
     return (
         <div className="text-black">
             <h1 className="font-bold text-3xl">Error!</h1>
             <p>{error.message}</p>
-            <p>The stack trace is:</p>
-            <pre>{error.stack}</pre>
         </div>
-    )
+    );
 }
