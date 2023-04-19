@@ -1,7 +1,9 @@
+import { redirect } from "@remix-run/node";
 import { Form, isRouteErrorResponse, useActionData, useRouteError, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Chat } from "~/components/Icon";
-import { badRequest, validateEmail, validateMessage, validateName, validatePhone } from "~/utils";
+import Input from "~/components/Input";
+import { badRequest, sendEmail, trimPhone, validateEmail, validateMessage, validateName, validatePhone } from "~/utils";
 
 export async function action({ request }) {
     const formData = await request.formData();
@@ -10,10 +12,12 @@ export async function action({ request }) {
     const email = formData.get('email');
     const message = formData.get('message');
 
+    const trimmedPhone = trimPhone(phone);
+
     // const fields = { name, phone, email, message };
     const fieldErrors = {
         name: validateName(name),
-        phone: validatePhone(phone),
+        phone: validatePhone(trimmedPhone),
         email: validateEmail(email),
         message: validateMessage(message)
     };
@@ -22,9 +26,9 @@ export async function action({ request }) {
         return badRequest({ fieldErrors });
     }
 
-    // TODO: Send email for contact form
+    await sendEmail(name, email, trimmedPhone, message);
 
-    return null;
+    return redirect('/success');
 }
 
 export default function Contact() {
@@ -93,76 +97,53 @@ export default function Contact() {
                     <fieldset className="text-light-gray grid lg:grid-cols-2 gap-4">
                         <div>
                             <label htmlFor="name">Name</label>
-                            <input
+                            <Input
                                 ref={nameRef}
                                 type="text"
                                 name="name"
                                 id="name"
                                 placeholder="John Doe"
-                                className={`w-full bg-transparent border border-white rounded-lg block focus:border-none focus:ring-2 focus:ring-a11y-2 ${actionData?.fieldErrors.name ? 'border-red-700' : ''}`}
+                                fieldError={actionData?.fieldErrors.name}
                             />
-                            {
-                                actionData?.fieldErrors.name
-                                    ? (<span className="pt-1 text-red-700 inline text-sm">
-                                        {actionData.fieldErrors.name}
-                                    </span>)
-                                    : <>&nbsp;</>
-                            }
+
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input
+                            <Input
                                 ref={emailRef}
                                 type="email"
                                 id="email"
                                 name="email"
                                 placeholder="johndoe@gmail.com"
-                                className={`w-full bg-transparent border border-white rounded-lg block ${actionData?.fieldErrors.email ? 'border-red-700' : ''}`}
+                                fieldError={actionData?.fieldErrors.email}
                             />
-                            {
-                                actionData?.fieldErrors.email
-                                    ? (<span className="pt-1 text-red-700 text-sm">
-                                        {actionData.fieldErrors.email}
-                                    </span>)
-                                    : <>&nbsp;</>
-                            }
+
                         </div>
                         <div>
                             <label htmlFor="phone">Phone number</label>
-                            <input
+                            <Input
                                 ref={phoneRef}
                                 type="text"
                                 id="phone"
                                 name="phone"
                                 placeholder="0712345678"
-                                className={`w-full bg-transparent border border-white rounded-lg block ${actionData?.fieldErrors.phone ? 'border-red-700' : ''}`}
+                                fieldError={actionData?.fieldErrors.phone}
                             />
-                            {
-                                actionData?.fieldErrors.phone
-                                    ? (<span className="pt-1 text-red-700 text-sm">
-                                        {actionData.fieldErrors.phone}
-                                    </span>)
-                                    : <>&nbsp;</>
-                            }
+
                         </div>
                         <div>
                             <label htmlFor="message">Message</label>
-                            <textarea
-                                ref={messageRef}
+                            <Input
+                                ref={emailRef}
+                                type="textarea"
                                 id="message"
                                 name="message"
-                                placeholder="Enter message"
-                                className={`w-full bg-transparent border border-white rounded-lg block ${actionData?.fieldErrors.message ? 'border-red-700' : ''}`}
+                                placeholder="johndoe@gmail.com"
+                                fieldError={actionData?.fieldErrors.message}
                             />
-                            {
-                                actionData?.fieldErrors.message
-                                    ? (<span className="pt-1 text-red-700 text-sm">
-                                        {actionData.fieldErrors.message}
-                                    </span>)
-                                    : <>&nbsp;</>
-                            }
+
                         </div>
-                        <button className="w-1/2 bg-white px-6 py-2 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <button className="w-1/2 bg-white px-6 py-2 rounded-lg text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 hover:bg-a11y-2 transition ease-in-out duration-300">
                             {transition.submission ? 'Submitting...' : 'Submit'}
                         </button>
                     </fieldset>

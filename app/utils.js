@@ -168,6 +168,51 @@ export async function reserveTable(name, date, time, quantity, phone, specialEve
 
 }
 
+export async function sendEmail(name, email, phone, message) {
+    const Mailjet = require('node-mailjet');
+    // TODO: Write instructions on how to get the Mailjet public and private keys
+    // TODO: Write instructions on the email details (to, from, subject, body)
+
+    const mailjet = Mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
+
+    let res = null;
+    try {
+        res = await mailjet
+            .post('send', { version: 'v3.1' })
+            .request({
+                Messages: [
+                    {
+                        From: {
+                            Email: "brayomwas95@gmail.com",
+                            Name: "Restaurant"
+                        },
+                        To: [
+                            {
+                                Email: "thedevbrian@gmail.com",
+                                Name: "Brian Mwangi"
+                            }
+                        ],
+                        Subject: "Email from Restaurant contact form",
+                        TextPart: "This is the text part",
+                        HTMLPart: `<h3>Message from ${name}</h3>
+                                               <p>Name: ${name}</p>
+                                               <p>Email: ${email} </p>
+                                               <p>Message: ${message} </p>
+                                               <p>Here is my contact: ${phone}</p>
+                                               
+                                               
+                                    
+                                    `
+                    }
+                ]
+            });
+        console.log(request.body);
+    } catch (error) {
+        console.log(error);
+    }
+    return res.body;
+}
+
 // Naive implementation - in reality would want to attach
 // a window or resize listener. Also use state/layoutEffect instead of ref/effect
 // if this is important to know on initial client render.
