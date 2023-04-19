@@ -75,7 +75,6 @@ export default function EventReserve() {
         }
     }, [actionData]);
 
-    // TODO: Use the event's image as background image
     return (
         <main
             className={`min-h-screen bg-black bg-no-repeat bg-cover bg-center bg-blend-overlay bg-opacity-70`}

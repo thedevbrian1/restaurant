@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import { Form, isRouteErrorResponse, useActionData, useRouteError, useTransition } from "@remix-run/react";
+import { Form, isRouteErrorResponse, useActionData, useNavigation, useRouteError } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import { Chat } from "~/components/Icon";
 import Input from "~/components/Input";
@@ -33,7 +33,9 @@ export async function action({ request }) {
 
 export default function Contact() {
     const actionData = useActionData();
-    const transition = useTransition();
+    const navigation = useNavigation();
+
+    const isSubmitting = navigation.state === 'submitting';
 
     const nameRef = useRef(null);
     const emailRef = useRef(null);
@@ -144,7 +146,7 @@ export default function Contact() {
 
                         </div>
                         <button className="w-1/2 bg-a11y-2 px-6 py-2 rounded-lg text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-white hover:bg-orange-300 transition ease-in-out duration-300">
-                            {transition.submission ? 'Submitting...' : 'Submit'}
+                            {isSubmitting ? 'Submitting...' : 'Submit'}
                         </button>
                     </fieldset>
                 </Form>

@@ -1,4 +1,4 @@
-import { Form, Link, Outlet, isRouteErrorResponse, useCatch, useLoaderData, useRouteError, useTransition } from "@remix-run/react";
+import { Form, Link, isRouteErrorResponse, useLoaderData, useNavigation, useRouteError } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { useState } from "react";
 
@@ -28,9 +28,11 @@ export async function action({ request }) {
 
 export default function EventSlug() {
     const data = useLoaderData();
-    console.log({ data });
-    const transition = useTransition();
+    const navigation = useNavigation();
+
     const [showDialog, setShowDialog] = useState(false);
+
+    const isSubmitting = navigation.state === 'submitting';
 
     function open() {
         setShowDialog(true);
@@ -64,7 +66,7 @@ export default function EventSlug() {
                         <Form method="post">
                             <input type="hidden" name="eventId" value={data[0]._id} />
                             <button type="submit" className="px-6 py-2 rounded-lg bg-white text-black">
-                                {transition.submission ? 'Please wait...' : 'Reserve'}
+                                {isSubmitting ? 'Please wait...' : 'Reserve'}
                             </button>
                         </Form>
                         {/* <Link to="reserve" className="px-6 py-2 rounded-lg bg-white text-black">
@@ -75,7 +77,7 @@ export default function EventSlug() {
 
             </div>
         </main>
-    )
+    );
 }
 
 export function ErrorBoundary() {

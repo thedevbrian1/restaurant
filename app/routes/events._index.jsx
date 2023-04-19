@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useCatch, useLoaderData, useRouteError, useTransition } from "@remix-run/react";
+import { isRouteErrorResponse, useCatch, useLoaderData, useNavigation, useRouteError } from "@remix-run/react";
 import EventCard from "~/components/EventCard";
 import { Calendar } from "~/components/Icon";
 import { getWeeklyEvents } from "~/models/event";
@@ -13,7 +13,9 @@ export default function Events() {
     // TODO: Animate gradient
 
     const data = useLoaderData();
-    const transition = useTransition();
+    const navigation = useNavigation();
+
+    const isLoading = navigation.state === 'loading';
 
     // console.log({ data });
     const events = [
@@ -48,7 +50,7 @@ export default function Events() {
     ];
 
     return (
-        <main className={`${transition.state === 'loading' ? 'opacity-50' : ''} bg-a11y-1 text-a11y-2`}>
+        <main className={`${isLoading ? 'opacity-50' : ''} bg-a11y-1 text-a11y-2`}>
             <section className="w-full h-[25vh] bg-a11y-1 text-a11y-2 grid place-items-center">
                 <div className="flex flex-col items-center gap-y-4">
                     <Calendar />

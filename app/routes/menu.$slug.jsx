@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useCatch, useLoaderData, useParams, useRouteError } from "@remix-run/react";
+import { isRouteErrorResponse, useLoaderData, useParams, useRouteError } from "@remix-run/react";
 import MenuItem from "~/components/MenuItem";
 
 export async function loader({ params }) {

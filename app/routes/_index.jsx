@@ -1,4 +1,4 @@
-import { Form, Link, useActionData, useTransition } from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
@@ -236,8 +236,8 @@ function Testimonials() {
 function ContactForm() {
   const actionData = useActionData();
 
-  const transition = useTransition();
-  const isSubmitting = transition.submission;
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
   const [showAdditional, setShowAdditional] = useState(false);
 
@@ -248,8 +248,6 @@ function ContactForm() {
   const specialEventDetailsRef = useRef(null);
   // const hours = ['12 (Midnight)', '1 a.m.', '2 a.m.', '3 a.m.', '4 a.m.', '5 a.m.', '6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 (Noon)', '1 p.m', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.', '8 p.m.', '9 p.m.', '10 p.m.', '11 p.m.'];
 
-  // TODO: Collect more details for reservation e.g whether it is a special occasion
-  // Use a checkbox to activate the more details section
   // Special occasions include birthdays, graduation party, valentine's
   return (
     <section id="reserve" className="w-4/5 lg:max-w-6xl mx-auto py-16 lg:py-20 grid gap-5 justify-items-center">
