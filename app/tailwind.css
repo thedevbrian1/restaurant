@@ -1311,6 +1311,16 @@ select {
   background-color: rgb(85 168 51 / var(--tw-bg-opacity));
 }
 
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1679,6 +1689,16 @@ select {
   background-color: rgb(249 130 16 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-a11y-1:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(78 0 57 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-orange-300:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 186 116 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-opacity-30:hover {
   --tw-bg-opacity: 0.3;
 }
@@ -1736,6 +1756,21 @@ select {
 .focus\:ring-blue-600:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
+}
+
+.focus\:ring-a11y-1:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(78 0 57 / var(--tw-ring-opacity));
+}
+
+.focus\:ring-black:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
+}
+
+.focus\:ring-white:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(255 255 255 / var(--tw-ring-opacity));
 }
 
 .group:hover .group-hover\:translate-x-4 {

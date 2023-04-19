@@ -20,6 +20,13 @@ export async function getEvent(slug) {
 
 }
 
+export async function getEventName(id) {
+    const eventNameQuery = `*[_id == "${id}"]{name}`;
+    const eventNameUrl = `${queryUrl}?query=${encodeURIComponent(eventNameQuery)}`;
+    const res = await fetch(eventNameUrl);
+    return res.json();
+}
+
 export async function getEventImageAndName(id) {
     const eventImageQuery = `*[_id == "${id}"]{name,image{image{asset->}}}`;
     const eventImageUrl = `${queryUrl}?query=${encodeURIComponent(eventImageQuery)}`

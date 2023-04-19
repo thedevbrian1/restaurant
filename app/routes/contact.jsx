@@ -138,12 +138,12 @@ export default function Contact() {
                                 type="textarea"
                                 id="message"
                                 name="message"
-                                placeholder="johndoe@gmail.com"
+                                placeholder="Enter message here"
                                 fieldError={actionData?.fieldErrors.message}
                             />
 
                         </div>
-                        <button className="w-1/2 bg-white px-6 py-2 rounded-lg text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 hover:bg-a11y-2 transition ease-in-out duration-300">
+                        <button className="w-1/2 bg-a11y-2 px-6 py-2 rounded-lg text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-white hover:bg-orange-300 transition ease-in-out duration-300">
                             {transition.submission ? 'Submitting...' : 'Submit'}
                         </button>
                     </fieldset>

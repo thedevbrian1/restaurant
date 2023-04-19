@@ -213,6 +213,49 @@ export async function sendEmail(name, email, phone, message) {
     return res.body;
 }
 
+export async function reserveEvent(name, email, phone, capacity, eventName) {
+    const Mailjet = require('node-mailjet');
+    // TODO: Write instructions on how to get the Mailjet public and private keys
+    // TODO: Write instructions on the email details (to, from, subject, body)
+
+    const mailjet = Mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
+
+    let res = null;
+    try {
+        res = await mailjet
+            .post('send', { version: 'v3.1' })
+            .request({
+                Messages: [
+                    {
+                        From: {
+                            Email: "brayomwas95@gmail.com",
+                            Name: "Restaurant"
+                        },
+                        To: [
+                            {
+                                Email: "thedevbrian@gmail.com",
+                                Name: "Brian Mwangi"
+                            }
+                        ],
+                        Subject: "Email from Restaurant contact form",
+                        TextPart: "This is the text part",
+                        HTMLPart: `<h3>Message from ${name}</h3>
+                                               <p>Hi, I am ${name}. I would like to reserve a table for ${capacity} for the event <b>${eventName}</b></p>
+                                               <p>Here are my details:</p>
+                                               <p>Phone: ${phone} </p>
+                                               <p>Email: ${email} </p>
+                                                
+                                    `
+                    }
+                ]
+            });
+        console.log(request.body);
+    } catch (error) {
+        console.log(error);
+    }
+    return res.body;
+}
+
 // Naive implementation - in reality would want to attach
 // a window or resize listener. Also use state/layoutEffect instead of ref/effect
 // if this is important to know on initial client render.

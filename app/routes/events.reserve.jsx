@@ -1,9 +1,10 @@
 import { json, redirect } from "@remix-run/node";
 import { Form, isRouteErrorResponse, useActionData, useCatch, useLoaderData, useRouteError, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
-import { getEventImageAndName } from "~/models/event";
+import { getEventImageAndName, getEventName } from "~/models/event";
 import { getSession, sessionStorage } from "~/session.server";
-import { validateName, validatePhone, validateEmail, validateCapacity, badRequest } from "../utils";
+import { validateName, validatePhone, validateEmail, validateCapacity, badRequest, reserveEvent, trimPhone } from "../utils";
+import Input from "~/components/Input";
 
 export async function loader({ request }) {
     const session = await getSession(request);
@@ -17,17 +18,19 @@ export async function loader({ request }) {
     });
 }
 
-export async function action({ request }) {
+export async function action({ request, params }) {
     const formData = await request.formData();
     const name = formData.get('name');
     const phone = formData.get('phone');
     const email = formData.get('email');
     const capacity = formData.get('capacity');
 
+    const trimmedPhone = trimPhone(phone);
+
     // const fields = { name, phone, email, capacity };
     const fieldErrors = {
         name: validateName(name),
-        phone: validatePhone(phone),
+        phone: validatePhone(trimmedPhone),
         email: validateEmail(email),
         capacity: validateCapacity(capacity)
     };
@@ -36,11 +39,20 @@ export async function action({ request }) {
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({ fieldErrors });
     }
+
+    const session = await getSession(request);
+    const eventId = session.get("eventId");
+
+    const res = await getEventName(eventId);
+    const eventName = res.result[0].name;
+
+    await reserveEvent(name, email, trimmedPhone, capacity, eventName);
+
     return redirect('/success');
 }
 export default function EventReserve() {
     const data = useLoaderData();
-    console.log({ data });
+
     const actionData = useActionData();
     const transition = useTransition();
 
@@ -79,77 +91,50 @@ export default function EventReserve() {
                         <fieldset className="text-white grid lg:grid-cols-2 gap-4">
                             <div>
                                 <label htmlFor="name">Full name</label>
-                                <input
+                                <Input
                                     ref={nameRef}
                                     type="text"
                                     id="name"
                                     name="name"
                                     placeholder="John Doe"
-                                    className={`w-full rounded-lg block ${actionData?.fieldErrors.name ? 'border-red-700' : ''}`}
+                                    fieldError={actionData?.fieldErrors.name}
                                 />
-                                {
-                                    actionData?.fieldErrors.name
-                                        ? (<span className="pt-1 text-red-500 inline text-sm">
-                                            {actionData.fieldErrors.name}
-                                        </span>)
-                                        : <>&nbsp;</>
-                                }
                             </div>
                             <div>
                                 <label htmlFor="phone">Phone number</label>
-                                <input
+                                <Input
                                     ref={phoneRef}
                                     type="text"
                                     id="phone"
                                     name="phone"
                                     placeholder="0712345678"
-                                    className={`w-full rounded-lg block ${actionData?.fieldErrors.phone ? 'border-red-700' : ''}`}
+                                    fieldError={actionData?.fieldErrors.phone}
                                 />
-                                {
-                                    actionData?.fieldErrors.phone
-                                        ? (<span className="pt-1 text-red-500 text-sm">
-                                            {actionData.fieldErrors.phone}
-                                        </span>)
-                                        : <>&nbsp;</>
-                                }
                             </div>
                             <div>
                                 <label htmlFor="email">Email</label>
-                                <input
+                                <Input
                                     ref={emailRef}
                                     type="email"
                                     id="email"
                                     name="email"
                                     placeholder="johndoe@gmail.com"
-                                    className={`w-full rounded-lg block ${actionData?.fieldErrors.email ? 'border-red-700' : ''}`}
+                                    fieldError={actionData?.fieldErrors.email}
                                 />
-                                {
-                                    actionData?.fieldErrors.email
-                                        ? (<span className="pt-1 text-red-500 text-sm">
-                                            {actionData.fieldErrors.email}
-                                        </span>)
-                                        : <>&nbsp;</>
-                                }
                             </div>
                             <div>
                                 <label htmlFor="capacity">Number of people</label>
-                                <input
+                                <Input
                                     ref={capacityRef}
                                     type="number"
                                     id="capacity"
                                     name="capacity"
                                     placeholder="2"
-                                    className={`w-full text-black rounded-lg block ${actionData?.fieldErrors.capacity ? 'border-red-700' : ''}`}
+                                    fieldError={actionData?.fieldErrors.capacity}
                                 />
-                                {
-                                    actionData?.fieldErrors.capacity
-                                        ? (<span className="pt-1 text-red-500 text-sm">
-                                            {actionData.fieldErrors.capacity}
-                                        </span>)
-                                        : <>&nbsp;</>
-                                }
+
                             </div>
-                            <button className="w-1/2 bg-a11y-2 px-6 py-2 rounded-lg text-a11y-1 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            <button className="w-1/2 bg-a11y-2 px-6 py-2 rounded-lg text-a11y-1 focus:border-none focus:outline-none focus:ring-2 focus:ring-white hover:bg-a11y-1 hover:text-a11y-2 transition ease-in-out duration-300">
                                 {transition.submission ? 'Reserving...' : 'Reserve'}
                             </button>
                         </fieldset>
@@ -157,7 +142,7 @@ export default function EventReserve() {
                 </div>
             </div>
         </main>
-    )
+    );
 }
 
 export function ErrorBoundary() {

@@ -27,7 +27,7 @@ const Input = forwardRef(({ type, name, id, placeholder, fieldError }, ref) => {
                     id={id}
                     placeholder={placeholder}
                     onChange={handleChange}
-                    className={`block w-full px-3 py-2 border bg-transparent rounded text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 ${errorState ? 'border-red-700' : 'border-gray-400'}`}
+                    className={`block w-full px-3 py-2 border bg-gray-100 rounded text-black focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 ${errorState ? 'border-red-700' : 'border-gray-400'}`}
                 />)
                 : (<input
                     ref={ref}
@@ -38,7 +38,7 @@ const Input = forwardRef(({ type, name, id, placeholder, fieldError }, ref) => {
                     onChange={handleChange}
                     // onBlur={handleBlur}
                     // onBlur={onBlur}
-                    className={`block w-full px-3 py-2 border bg-transparent rounded border-gray-300 text-light-black  focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 ${errorState ? 'border-red-700' : 'border-gray-400'}`}
+                    className={`block w-full px-3 py-2 border bg-gray-100 rounded border-gray-300 text-light-black  focus:border-none focus:outline-none focus:ring-2 focus:ring-a11y-2 ${errorState ? 'border-red-700' : 'border-gray-400'}`}
                 />)
             }
 
