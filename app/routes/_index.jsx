@@ -8,12 +8,13 @@ import MenuCard from "~/components/MenuCard";
 import Special from "~/components/Special";
 import TestimonialCard from "~/components/TestimonialCard";
 import Input from "~/components/Input";
-import { badRequest, hours, validateCapacity, validateDate, validateMessage, validatePhone, validateTime } from "~/utils";
+import { badRequest, hours, reserveTable, trimPhone, validateCapacity, validateDate, validateMessage, validateName, validatePhone, validateTime } from "~/utils";
 import Button from "~/components/Button";
 
 
 export async function action({ request }) {
   const formData = await request.formData();
+  const name = formData.get('name');
   const date = formData.get('date');
   const time = formData.get('time');
   const quantity = formData.get('quantity');
@@ -25,19 +26,25 @@ export async function action({ request }) {
 
   console.log(hours.includes(time));
 
+  const trimmedPhone = trimPhone(phone);
+
   const fields = { date, time, quantity, phone, specialEventDetails };
   const fieldErrors = {
+    name: validateName(name),
     date: validateDate(date),
     time: validateTime(time),
     quantity: validateCapacity(quantity),
-    phone: validatePhone(phone),
-    specialEventDetails: validateMessage(specialEventDetails)
+    phone: validatePhone(trimmedPhone),
+    ...(specialEventDetails) && { specialEventDetails: validateMessage(specialEventDetails) }
   };
 
   // Return errors if any
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({ fields, fieldErrors });
   }
+
+  await reserveTable(name, date, time, quantity, trimmedPhone, specialEventDetails);
+
   return redirect('/success');
 }
 
@@ -124,6 +131,8 @@ function Specials() {
           <p className="text-light-black">Don't get left out of the hottest vibes in Nairobi's hypest spot.</p>
           <div className="grid lg:grid-cols-2 gap-2 mt-3">
             {/* Grid with icons */}
+            {/* TODO: Stagger(animation) specials when in view*/}
+
             {
               specials.map((item, index) => (
                 <Special special={item} key={index} index={index} />
@@ -233,6 +242,7 @@ function ContactForm() {
   const [showAdditional, setShowAdditional] = useState(false);
 
   const dateRef = useRef(null);
+  const nameRef = useRef(null);
   const quantityRef = useRef(null);
   const phoneRef = useRef(null);
   const specialEventDetailsRef = useRef(null);
@@ -245,9 +255,32 @@ function ContactForm() {
     <section id="reserve" className="w-4/5 lg:max-w-6xl mx-auto py-16 lg:py-20 grid gap-5 justify-items-center">
       <h2 className="font-semibold text-2xl lg:text-5xl text-black font-heading">Your next meal awaits @ Restaurant KE</h2>
       <p className="font-bold text-a11y-1 text-xl lg:text-2xl">123 Street, Nairobi</p>
+      <h3 className="font-bold text-xl lg:text-2xl text-light-black mt-4">Reserve your table</h3>
       <Form method="post" className="max-w-4xl mx-auto">
         <fieldset className="text-black px-4 lg:px-10 ">
           <div className="flex flex-col lg:flex-row flex-wrap gap-3 lg:items-start">
+            <div>
+              <label htmlFor="name">Name</label>
+              <Input
+                ref={nameRef}
+                type="text"
+                name="name"
+                id="name"
+                placeholder="John Doe"
+                fieldError={actionData?.fieldErrors.name}
+              />
+            </div>
+            <div>
+              <label htmlFor="phone">Phone number</label>
+              <Input
+                ref={phoneRef}
+                type='text'
+                name='phone'
+                id='phone'
+                placeholder='0710 162 152'
+                fieldError={actionData?.fieldErrors.phone}
+              />
+            </div>
             <div>
               <label htmlFor="date">Day</label>
               <Input
@@ -288,17 +321,7 @@ function ContactForm() {
                 fieldError={actionData?.fieldErrors.quantity}
               />
             </div>
-            <div>
-              <label htmlFor="phone">Phone number</label>
-              <Input
-                ref={phoneRef}
-                type='text'
-                name='phone'
-                id='phone'
-                placeholder='0710 162 152'
-                fieldError={actionData?.fieldErrors.phone}
-              />
-            </div>
+
             <div>
               <input
                 type="checkbox"

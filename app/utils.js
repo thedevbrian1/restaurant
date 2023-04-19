@@ -43,6 +43,10 @@ export function validateName(name) {
     }
 }
 
+export function trimPhone(phone) {
+    return phone.replace(/\D+/g, '');
+}
+
 export function validatePhone(phone) {
     // if (typeof phone !== "string" || phone.length < 10) {
     //   return 'Phone number is invalid';
@@ -120,37 +124,47 @@ export function badRequest(data) {
     return json(data, { status: 404 });
 }
 
-export async function sendEmail({ name, email, phone, message }) {
+export async function reserveTable(name, date, time, quantity, phone, specialEventDetails) {
     const Mailjet = require('node-mailjet');
+    // TODO: Write instructions on how to get the Mailjet public and private keys
+    // TODO: Write instructions on the email details (to, from, subject, body)
+
     const mailjet = Mailjet.apiConnect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVATE);
 
+    let res = null;
     try {
-        const res = await mailjet
-            .post("send", { 'version': 'v3' })
+        res = await mailjet
+            .post('send', { version: 'v3.1' })
             .request({
-                "FromEmail": "brayomwas95@gmail.com",
-                "FromName": "thedevbrian Website",
-                "Recipients": [
+                Messages: [
                     {
-                        "Email": "mwangib041@gmail.com",
-                        "Name": "Brian Mwangi"
+                        From: {
+                            Email: "brayomwas95@gmail.com",
+                            Name: "Restaurant"
+                        },
+                        To: [
+                            {
+                                Email: "thedevbrian@gmail.com",
+                                Name: "Brian Mwangi"
+                            }
+                        ],
+                        Subject: "Email from Restaurant contact form",
+                        TextPart: "This is the text part",
+                        HTMLPart: `<h3>Message from ${name}</h3>
+                                               <p>Hi, I would like to book a table for ${quantity} on ${date} at ${time}</p>
+                                               <p>Here is my contact: ${phone}</p>
+                                               <p>${specialEventDetails ? `This is a special occasion (${specialEventDetails})` : ''}</p>
+                                               
+                                    
+                                    `
                     }
-                ],
-                "Subject": "Test email from KE",
-                "Text-part": "This is the text part of this email",
-                "Html-part": `
-            <h3>Message from website</h3>
-            <p>${message}</p>
-            <p>Here are my contact details: </p>
-            <p>Name: ${name} </p>
-            <p>Email: ${email} </p>
-            <p>Phone: ${phone} </p>
-            `
+                ]
             });
-        console.log('Email response: ', res.body);
-    } catch (err) {
-        throw new Response(err, { status: err.statusCode })
+        console.log(request.body);
+    } catch (error) {
+        console.log(error);
     }
+    return res.body;
 
 }
 

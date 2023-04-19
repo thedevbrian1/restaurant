@@ -37,6 +37,7 @@ export default function Menu() {
             <section className="w-full h-[25vh]  grid place-items-center">
                 {/* TODO: Idea: Make text dynamic(change to breakfast, brunch, lunch, dinner, snacks) */}
                 <div className="flex flex-col items-center gap-y-4">
+                    {/* TODO: Animate book svg when page loads Draw the svg path*/}
                     <Book />
                     <h1 className="font-bold text-4xl font-heading">
                         Our Menu

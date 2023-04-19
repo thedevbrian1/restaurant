@@ -1,11 +1,16 @@
+import { Clock } from "~/components/Icon";
+
 export default function Hours() {
     // Orange gradient : bg-gradient-to-r from-[#f46b45] to-[#eea849]
     return (
         <main className=" text-a11y-2 bg-a11y-1">
             <section className="w-full h-[25vh] grid place-items-center">
-                <h1 className="font-bold font-heading text-3xl lg:text-4xl">
-                    Hours &amp; Location
-                </h1>
+                <div className="flex flex-col items-center gap-y-4">
+                    <Clock />
+                    <h1 className="font-bold font-heading text-3xl lg:text-4xl">
+                        Hours &amp; Location
+                    </h1>
+                </div>
             </section>
             <section className="w-4/5 lg:max-w-4xl mx-auto space-y-5 py-4 lg:py-10">
                 <h2 className="text-lg lg:text-2xl font-semibold font-heading text-center">Working hours</h2>

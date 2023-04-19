@@ -1,5 +1,6 @@
 import MenuItem from "~/components/MenuItem";
 
+// TODO: Fetch menu items from db / cms
 export default function MenuIndex() {
 
     return (

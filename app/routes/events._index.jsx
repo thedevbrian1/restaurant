@@ -1,5 +1,6 @@
 import { isRouteErrorResponse, useCatch, useLoaderData, useRouteError, useTransition } from "@remix-run/react";
 import EventCard from "~/components/EventCard";
+import { Calendar } from "~/components/Icon";
 import { getWeeklyEvents } from "~/models/event";
 
 export async function loader() {
@@ -49,9 +50,12 @@ export default function Events() {
     return (
         <main className={`${transition.state === 'loading' ? 'opacity-50' : ''} bg-a11y-1 text-a11y-2`}>
             <section className="w-full h-[25vh] bg-a11y-1 text-a11y-2 grid place-items-center">
-                <h1 className="font-bold font-heading text-4xl">
-                    Events
-                </h1>
+                <div className="flex flex-col items-center gap-y-4">
+                    <Calendar />
+                    <h1 className="font-bold font-heading text-4xl">
+                        Events
+                    </h1>
+                </div>
             </section>
             <section className="w-4/5 lg:max-w-4xl mx-auto space-y-5 py-10">
                 <h2 className="text-xl lg:text-2xl font-semibold font-heading">Weekly events</h2>

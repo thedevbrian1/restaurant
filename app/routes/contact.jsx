@@ -1,5 +1,6 @@
 import { Form, isRouteErrorResponse, useActionData, useRouteError, useTransition } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+import { Chat } from "~/components/Icon";
 import { badRequest, validateEmail, validateMessage, validateName, validatePhone } from "~/utils";
 
 export async function action({ request }) {
@@ -20,6 +21,8 @@ export async function action({ request }) {
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({ fieldErrors });
     }
+
+    // TODO: Send email for contact form
 
     return null;
 }
@@ -48,9 +51,12 @@ export default function Contact() {
     return (
         <main className="grid text-a11y-2 bg-a11y-1">
             <section className="w-full h-[25vh] grid place-items-center">
-                <h1 className="font-bold font-heading text-4xl">
-                    Contact
-                </h1>
+                <div className="flex flex-col items-center gap-y-4">
+                    <Chat />
+                    <h1 className="font-bold font-heading text-4xl">
+                        Contact
+                    </h1>
+                </div>
             </section>
             <section className="py-5 lg:py-10 space-y-3">
                 <h2 className="font-semibold text-lg lg:text-2xl text-center font-heading">We'd like to hear from you</h2>
