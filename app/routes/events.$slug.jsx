@@ -11,6 +11,12 @@ export async function loader({ params }) {
     return event.result;
 }
 
+export function meta({ data }) {
+    return [
+        { title: `${data[0].name} | Restaurant` }
+    ];
+}
+
 export async function action({ request }) {
     const formData = await request.formData();
     const eventId = formData.get('eventId');

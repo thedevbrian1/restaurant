@@ -5,6 +5,12 @@ import { Chat } from "~/components/Icon";
 import Input from "~/components/Input";
 import { badRequest, sendEmail, trimPhone, validateEmail, validateMessage, validateName, validatePhone } from "~/utils";
 
+export function meta() {
+    return [
+        { title: 'Contact us | Restaurant' }
+    ];
+}
+
 export async function action({ request }) {
     const formData = await request.formData();
     const name = formData.get('name');

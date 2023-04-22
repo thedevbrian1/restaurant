@@ -6,6 +6,12 @@ import { getSession, sessionStorage } from "~/session.server";
 import { validateName, validatePhone, validateEmail, validateCapacity, badRequest, reserveEvent, trimPhone } from "../utils";
 import Input from "~/components/Input";
 
+export function meta({ data }) {
+    return [
+        { title: `Reserve ${data[0].name} | Restaurant` }
+    ];
+}
+
 export async function loader({ request }) {
     const session = await getSession(request);
     const eventId = session.get("eventId");

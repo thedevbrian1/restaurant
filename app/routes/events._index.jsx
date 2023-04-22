@@ -8,6 +8,13 @@ export async function loader() {
     // console.log({ weeklyEvents });
     return weeklyEvents.result;
 }
+
+export function meta() {
+    return [
+        { title: 'Events | Restaurant' }
+    ];
+}
+
 export default function Events() {
     // TODO: Schedule an event in one's calendar
     // TODO: Animate gradient

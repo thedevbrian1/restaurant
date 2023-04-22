@@ -1,6 +1,12 @@
 import { Link, NavLink, Outlet } from "@remix-run/react";
 import { Book } from "~/components/Icon";
 
+export function meta() {
+    return [
+        { title: 'Menu | Restaurant' }
+    ];
+}
+
 export default function Menu() {
     const menuLinks = [
         {

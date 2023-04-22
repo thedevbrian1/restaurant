@@ -1,5 +1,11 @@
 import { Clock } from "~/components/Icon";
 
+export function meta() {
+    return [
+        { title: 'Opening hours and location | Restaurant' }
+    ];
+}
+
 export default function Hours() {
     // Orange gradient : bg-gradient-to-r from-[#f46b45] to-[#eea849]
     return (
