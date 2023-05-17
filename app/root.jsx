@@ -17,7 +17,11 @@ import { navLinks } from "./utils";
 export const meta = () => ([
   { charset: "utf-8" },
   { title: "Restaurant" },
-  { viewport: "width=device-width,initial-scale=1", }
+  {
+    name: "viewport",
+    content: "width=device-width,initial-scale=1"
+  },
+
 ]);
 
 export const links = () => ([

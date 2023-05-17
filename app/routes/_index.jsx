@@ -71,14 +71,14 @@ function Hero() {
   return (
     <section className="w-full h-screen  bg-[url('/hero.jpg')] bg-center bg-no-repeat ">
       <div className="w-full h-full grid place-items-center  bg-gradient-to-b from-a11y-1 via-[#5c0244]">
-        <div className="grid gap-3 lg:gap-6 place-items-center px-5">
-          <h1 className="text-3xl lg:text-6xl font-semibold font-heading">
+        <div className="grid gap-6 place-items-center px-5">
+          <h1 className="text-4xl lg:text-6xl font-semibold font-heading">
             Experience Heaven in your Mouth
           </h1>
-          <p className="text-lg lg:text-2xl font-text">
+          <p className="text-xl font-text">
             The best of Nairobian drinks and meals in one spot
           </p>
-          <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto px-4 lg:px-auto">
+          <div className="flex flex-col lg:flex-row gap-4 w-3/4 lg:w-auto px-4 lg:px-auto">
             <Button href='/#reserve' text='Make Reservation' type='solid' />
             <Button href='/' text='Order Here' type='outline' />
           </div>
@@ -127,7 +127,7 @@ function Specials() {
         </div>
         <div className="flex flex-col gap-2 self-center order-1 lg:order-none">
           <h2 className="font-semibold text-2xl lg:text-4xl font-heading">Enjoy our weekly specials</h2>
-          <p className="text-a11y-1 text-xl lg:text-2xl">Awesome experiences at Restaurant KE</p>
+          <p className="text-a11y-1 text-lg lg:text-2xl">Awesome experiences at Restaurant KE</p>
           <p className="text-light-black">Don't get left out of the hottest vibes in Nairobi's hypest spot.</p>
           <div className="grid lg:grid-cols-2 gap-2 mt-3">
             {/* Grid with icons */}
